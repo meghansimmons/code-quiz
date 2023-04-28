@@ -12,17 +12,20 @@ body {
 
 h1 {
   text-align: center;
+  width: 500px;
   font-size: 30px;
   margin-top: 100px;
+  margin-bottom: 25px;
 }
 
 p {
+  display: inline-block;
   font-size: 18px;
 }
 
 button {
   padding: 8px;
-  margin: 25px;
+  margin: 10px 0px 10px 0px;
   cursor: pointer;
   font-size: 18px;
   background-color: green;
@@ -30,17 +33,52 @@ button {
   border-radius: 10px;
 }
 
+
+
 /* Class Selectors */
-.container {
+.start-screen {
   display: block;
   margin: auto;
   text-align: center;
   width: 50vw;
-  padding-top: 10px;
+}
+
+.start-button {
+  display: block;
+  margin-top: 50px;
+  width: 500px;
 }
 
 .time {
-  text-align: end;
-  margin: 15px 15px 0px 0px;
+  margin-left: 950px;
+}
+
+.btndiv {
+  margin: auto;
+  width: 50%;
+}
+
+.btn {
+  color: white;
+  /* margin: 5px; */
+  display: block;
+  /* align-content: center; */
+  /* justify-content: center; */
+}
+
+.card {
+  display:block;
+  position: relative;
+}
+
+.quiz-container {
+  display: block;
+  width: 750px;
+  margin: auto;
+  /* text-align: left; */
+  /* justify-content: center; */
+  /* align-content: end; */
+  /* position: relative; */
+  /* background-color: darkgray; */
 }
 /* ID Selectors */
