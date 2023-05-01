@@ -4,9 +4,9 @@ var timeEl = document.querySelector(".time");
 var quizContainerEl = document.querySelector(".quiz-container");
 
 var count=0;
-var secondsLeft = 29;
+var secondsLeft = 75;
 var answerArray = [];
-
+var timerInterval;
 
 var arrayQA = [
   {
@@ -61,21 +61,21 @@ startButtonEl.addEventListener("click", function(){
 // start timer and quiz creator functions
 function initial(){
   setTime();
-  createQuizQA();
 }
 
-
+// var timerInterval 
 function setTime() {
-  var timerInterval = setInterval(function() {
+  timerInterval = setInterval(function() {
     secondsLeft--;
     timeEl.textContent = ("Time: " + secondsLeft);
-    
-    if(secondsLeft === 0) {
+    if(secondsLeft <= 0) {
       clearInterval(timerInterval);
       timeEl.textContent = ("Time's Up!");
-   
+      quizContainerEl.style.display = "none";
+      timeEl.style.display = "none";
     }
   }, 1000);
+  createQuizQA();
 };
 
 function createQuizQA(){ 
@@ -111,29 +111,32 @@ function createQuizQA(){
 
 quizContainerEl.addEventListener("click", function(event){
   event.preventDefault();
-  count++;
   answerArray.push(event.target.id);
 
+  if(answerArray[count] == arrayQA[count].answer){
+    console.log("Correct");
+  } else{
+    secondsLeft -= 15;
+      if (secondsLeft < 0){
+        secondsLeft = 0;
+        clearInterval
+      }
+    console.log("Wrong");
+    }
+  
+  count++;
   if (count<arrayQA.length) {
     quizContainerEl.innerHTML = '';
     createQuizQA();
   } else {
     console.log("no more questions");
     quizContainerEl.innerHTML = "";
-    checkAnswers();
+    console.log(secondsLeft);
+    clearInterval(timerInterval);
+    quizContainerEl.style.display = "none";
+    timeEl.style.display = "none";
     return;
-  };
-   
+  };  
 });
 
-
-function checkAnswers(){
-  for (var i = 0; i < answerArray.length; i++) {
-    if(answerArray[i] == arrayQA[i].answer){
-      console.log("Correct");
-    } else{
-      console.log("Wrong");
-    }
-  }
-};
 
