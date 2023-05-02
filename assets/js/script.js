@@ -2,11 +2,16 @@ var startScreenEl = document.querySelector(".start-screen");
 var startButtonEl = document.querySelector(".start-button");
 var timeEl = document.querySelector(".time");
 var quizContainerEl = document.querySelector(".quiz-container");
+var endScreenEl = document.querySelector(".end-screen");
+var nameInputEl = document.querySelector("#initials");
+var submitButtonEl = document.querySelector(".submit-time");
+
 
 var count=0;
-var secondsLeft = 75;
+var secondsLeft = 35;
 var answerArray = [];
 var timerInterval;
+var initialsText = "";
 
 var arrayQA = [
   {
@@ -68,11 +73,10 @@ function setTime() {
   timerInterval = setInterval(function() {
     secondsLeft--;
     timeEl.textContent = ("Time: " + secondsLeft);
-    if(secondsLeft <= 0) {
+    if(secondsLeft < 0) {
       clearInterval(timerInterval);
       timeEl.textContent = ("Time's Up!");
       quizContainerEl.style.display = "none";
-      timeEl.style.display = "none";
     }
   }, 1000);
   createQuizQA();
@@ -114,14 +118,17 @@ quizContainerEl.addEventListener("click", function(event){
   answerArray.push(event.target.id);
 
   if(answerArray[count] == arrayQA[count].answer){
-    console.log("Correct");
+    // console.log("Correct");
   } else{
     secondsLeft -= 15;
       if (secondsLeft < 0){
         secondsLeft = 0;
-        clearInterval
+        timeEl.textContent = ("Time's Up!");
+        clearInterval(timerInterval);
+        saveHighScore(secondsLeft);
+        quizContainerEl.style.display = "none";
       }
-    console.log("Wrong");
+    // console.log("Wrong");
     }
   
   count++;
@@ -131,12 +138,21 @@ quizContainerEl.addEventListener("click", function(event){
   } else {
     console.log("no more questions");
     quizContainerEl.innerHTML = "";
-    console.log(secondsLeft);
+    saveHighScore(secondsLeft);
     clearInterval(timerInterval);
     quizContainerEl.style.display = "none";
-    timeEl.style.display = "none";
     return;
   };  
 });
+
+
+function saveHighScore(){
+  endScreenEl.style.display = "block";
+
+  submitButtonEl.addEventListener("click", function(event){
+    event.preventDefault();
+    initialsText = nameInputEl.value
+  });
+};
 
 

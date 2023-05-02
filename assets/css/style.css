@@ -34,7 +34,6 @@ button {
 }
 
 
-
 /* Class Selectors */
 .start-screen {
   display: block;
@@ -80,5 +79,9 @@ button {
   /* align-content: end; */
   /* position: relative; */
   /* background-color: darkgray; */
+}
+
+.end-screen {
+  display: none;
 }
 /* ID Selectors */
