@@ -5,13 +5,15 @@ var quizContainerEl = document.querySelector(".quiz-container");
 var endScreenEl = document.querySelector(".end-screen");
 var nameInputEl = document.querySelector("#initials");
 var submitButtonEl = document.querySelector(".submit-time");
+var finalScoreEl = document.querySelector("#final-score");
+var highScoreEl = document.querySelector(".high-scores");
 
 
 var count=0;
-var secondsLeft = 35;
+var secondsLeft = 75;
 var answerArray = [];
 var timerInterval;
-var initialsText = "";
+
 
 var arrayQA = [
   {
@@ -136,7 +138,6 @@ quizContainerEl.addEventListener("click", function(event){
     quizContainerEl.innerHTML = '';
     createQuizQA();
   } else {
-    console.log("no more questions");
     quizContainerEl.innerHTML = "";
     saveHighScore(secondsLeft);
     clearInterval(timerInterval);
@@ -145,14 +146,55 @@ quizContainerEl.addEventListener("click", function(event){
   };  
 });
 
-
+//function to display final score and accept users initials
+//calls function ??
 function saveHighScore(){
   endScreenEl.style.display = "block";
+  finalScoreEl.textContent += secondsLeft;
 
   submitButtonEl.addEventListener("click", function(event){
     event.preventDefault();
-    initialsText = nameInputEl.value
+
+    // localStorage.setItem("movie-year", JSON.stringify(secondsLeft));
+
+    console.log(nameInputEl.value);
+    displayHighScores()
   });
 };
 
+function displayHighScores(){
+  endScreenEl.style.display = "none";
+  timeEl.style.display = "none";
+  console.log("hello");
+
+  var goBackBtnEl = document.createElement('button');
+  goBackBtnEl.classList = ("btn");
+  goBackBtnEl.setAttribute('id', "back-button");
+  goBackBtnEl.textContent = ("Restart Quiz"); 
+  highScoreEl.appendChild(goBackBtnEl);
+
+  var clearBtnEl = document.createElement('button');
+  clearBtnEl.classList = ("btn");
+  clearBtnEl.setAttribute('id', "clear-button");
+  clearBtnEl.textContent = ("Clear Scores"); 
+  highScoreEl.appendChild(clearBtnEl);
+
+  //restarts quiz by reloading the browser
+  goBackBtnEl.addEventListener("click", function(event){
+    event.preventDefault();
+    window.location.reload()
+  });
+
+  // clears the high scores from local storage --- need this functionality!!
+  clearBtnEl.addEventListener("click", function(event){
+    event.preventDefault();
+    window.location.reload()
+  });
+  // var lastSecondsLeft = JSON.parse(localStorage.getItem("movie-year"));
+  // if (lastSecondsLeft !== null) {
+  //   movieYearEL.textContent = lastYear;
+  // } else {
+  //   return;
+  // }
+}
 
