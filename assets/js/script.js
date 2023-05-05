@@ -1,3 +1,4 @@
+//assign variables to HTML elements and declare variables
 var startScreenEl = document.querySelector(".start-screen");
 var startButtonEl = document.querySelector(".start-button");
 var timeEl = document.querySelector(".time");
@@ -18,6 +19,7 @@ var highScoreEntries = 0;
 var scores = [];
 var userNames =[];
 
+//array of objects that contain quiz information (questions, answer options and correct answer)
 var arrayQA = [
   {
     question: "Commonly used data types DO NOT include:",
@@ -61,16 +63,15 @@ var arrayQA = [
   }
 ];
 
-
-// when user clicks on start quiz button start inital function and hide start screen
+//Landing page
+// when the user clicks on the start quiz button then call inital() function and hide start screen
 startButtonEl.addEventListener("click", function(){
   startScreenEl.style.display = "none";
   initial();
 });
 
-// start timer and quiz creator functions init
-// If scores were retrieved from localStorage, update the scores array to it
-// Get stored score from localStorage
+// retrieve highscore info from localStorage and update the scores array
+// call setTime() function that will setup the timer (and start the quiz)
 function initial(){
   var storedScores = JSON.parse(localStorage.getItem("scores"));
 
@@ -82,6 +83,8 @@ function initial(){
   setTime();
 }
 
+//start the countdown timer and display the number of seconds left
+//call the createQuizQA() function
 function setTime() {
   timerInterval = setInterval(function() {
     secondsLeft--;
@@ -97,6 +100,8 @@ function setTime() {
   createQuizQA();
 };
 
+//create elements and append the information to the page
+//button elements show the answer options
 function createQuizQA(){ 
   var questionEl = document.createElement("h1");
   var btn1El = document.createElement('button');
@@ -114,10 +119,10 @@ function createQuizQA(){
   btn3El.setAttribute('id', "3");
   btn4El.setAttribute('id', "4");
 
-  questionEl.textContent = arrayQA[count].question;  //write question to page
+  questionEl.textContent = arrayQA[count].question;  
   quizContainerEl.appendChild(questionEl);
    
-  btn1El.textContent = "1. " + arrayQA[count].option1;    //create options
+  btn1El.textContent = "1. " + arrayQA[count].option1;   
   btn2El.textContent = "2. " + arrayQA[count].option2;  
   btn3El.textContent = "3. " + arrayQA[count].option3;
   btn4El.textContent = "4. " + arrayQA[count].option4;    
@@ -128,13 +133,14 @@ function createQuizQA(){
   quizContainerEl.appendChild(btn4El);
 }
 
+//event listener to record when the question is answered by clicking on a button
 quizContainerEl.addEventListener("click", function(event){
   event.preventDefault();
   answerArray.push(event.target.id);
 
   //if answer is wrong subtract 15 seconds from countdown timer
-  //if time runs out end quiz
-  //if answered all questions end quiz
+  //loop through until all questions have been answered
+  //if time runs out or all questions are answered then end the quiz
   if(answerArray[count] == arrayQA[count].answer){
 
   } else{
@@ -160,7 +166,7 @@ quizContainerEl.addEventListener("click", function(event){
   };  
 });
 
-//function to display final score and accept users initials
+//saveHighScore() function displays the final score and accepts users initials
 function saveHighScore(){
   endScreenEl.style.display = "block";
   timeEl.style.display = "none";
@@ -172,8 +178,8 @@ function saveHighScore(){
   });
 };
 
- // Add new scoreText to scores array and clear the user input box
-// Store updated scores in localStorage
+
+//displayHighScores() function displays the information and calls the functions storeScores() and renderScores()
 function displayHighScores(){
   endScreenEl.style.display = "none";
   savedDataEl.style.display = "block";
@@ -217,12 +223,12 @@ function displayHighScores(){
   });
 }
 
+// storeScores() function saves highscore information to local storage
 function storeScores() {
   localStorage.setItem("scores", JSON.stringify(scores));
 }
 
-// The following function renders items in a score list as <li> elements
- // Clear saveDataEL element and update highScoreEntries
+// renderScores() function renders highscore information in a list as <li> elements
 function renderScores() {
   savedDataEl.innerHTML = "";
   highScoreEntries.textContent = scores.length;

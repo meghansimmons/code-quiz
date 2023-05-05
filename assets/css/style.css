@@ -10,6 +10,11 @@ body {
   background-color: white;
 }
 
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 h1 {
   text-align: center;
   font-size: 30px;
@@ -26,9 +31,9 @@ h2 {
 }
 
 p {
-  display: inline-block;;
+  margin: auto;
   font-size: 18px;
-  width: 50%;
+  width: 25%;
 }
 
 button {
@@ -57,8 +62,9 @@ button {
 }
 
 .time {
-margin-top: 50px;
-margin-left: 750px;
+display: block;
+margin-top: 20px;
+margin-left: 500px;
 }
 
 .btndiv {
@@ -90,20 +96,24 @@ margin-left: 750px;
   text-align: center;
   width: 50%;
 }
+ .high-scores {
+  margin: auto;
+  width: 50%;
+ }
+
 /* ID Selectors */
 #saved-data {
-  margin-left: 600px;
+  margin-left: 300px;
   margin-top: 50px;
   font-size: 20px;
 }
 
 #back-button{
-  margin-left: 300px;
   width: 200px;
 }
 
 #clear-button{
-  margin-left: 300px;
+
   width: 200px;
 }
 
