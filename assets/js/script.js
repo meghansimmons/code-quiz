@@ -7,13 +7,16 @@ var nameInputEl = document.querySelector("#initials");
 var submitButtonEl = document.querySelector(".submit-time");
 var finalScoreEl = document.querySelector("#final-score");
 var highScoreEl = document.querySelector(".high-scores");
+var savedDataEl = document.querySelector("#saved-data");
 
-
-var count=0;
+var timerInterval;
 var secondsLeft = 75;
 var answerArray = [];
-var timerInterval;
+var count=0;
 
+var highScoreEntries = 0;
+var scores = [];
+var userNames =[];
 
 var arrayQA = [
   {
@@ -65,19 +68,29 @@ startButtonEl.addEventListener("click", function(){
   initial();
 });
 
-// start timer and quiz creator functions
+// start timer and quiz creator functions init
+// If scores were retrieved from localStorage, update the scores array to it
+// Get stored score from localStorage
 function initial(){
+  var storedScores = JSON.parse(localStorage.getItem("scores"));
+
+  if (storedScores !== null) {
+    scores = storedScores;
+  }
+  renderScores();
+  savedDataEl.style.display = "none";
   setTime();
 }
 
-// var timerInterval 
 function setTime() {
   timerInterval = setInterval(function() {
     secondsLeft--;
     timeEl.textContent = ("Time: " + secondsLeft);
     if(secondsLeft < 0) {
+      secondsLeft = 0;
       clearInterval(timerInterval);
       timeEl.textContent = ("Time's Up!");
+      saveHighScore(secondsLeft);
       quizContainerEl.style.display = "none";
     }
   }, 1000);
@@ -119,22 +132,23 @@ quizContainerEl.addEventListener("click", function(event){
   event.preventDefault();
   answerArray.push(event.target.id);
 
+  //if answer is wrong subtract 15 seconds from countdown timer
+  //if time runs out end quiz
+  //if answered all questions end quiz
   if(answerArray[count] == arrayQA[count].answer){
-    // console.log("Correct");
+
   } else{
     secondsLeft -= 15;
       if (secondsLeft < 0){
         secondsLeft = 0;
         timeEl.textContent = ("Time's Up!");
         clearInterval(timerInterval);
-        saveHighScore(secondsLeft);
         quizContainerEl.style.display = "none";
       }
-    // console.log("Wrong");
     }
   
   count++;
-  if (count<arrayQA.length) {
+  if (count<arrayQA.length && secondsLeft > 0) {
     quizContainerEl.innerHTML = '';
     createQuizQA();
   } else {
@@ -147,32 +161,41 @@ quizContainerEl.addEventListener("click", function(event){
 });
 
 //function to display final score and accept users initials
-//calls function ??
 function saveHighScore(){
   endScreenEl.style.display = "block";
-  finalScoreEl.textContent += secondsLeft;
+  timeEl.style.display = "none";
+  finalScoreEl.textContent = "Your final score is " + secondsLeft;
 
   submitButtonEl.addEventListener("click", function(event){
     event.preventDefault();
-
-    // localStorage.setItem("movie-year", JSON.stringify(secondsLeft));
-
-    console.log(nameInputEl.value);
     displayHighScores()
   });
 };
 
+ // Add new scoreText to scores array and clear the user input box
+// Store updated scores in localStorage
 function displayHighScores(){
   endScreenEl.style.display = "none";
-  timeEl.style.display = "none";
-  console.log("hello");
+  savedDataEl.style.display = "block";
 
+  var upperCaseName = nameInputEl.value.toUpperCase();
+  var upperCaseName3 = upperCaseName.slice(0,3);
+
+  var scoreText = upperCaseName3 + "      score:" + secondsLeft;
+  scores.push(scoreText);
+  nameInputEl.value = "";
+ 
+  storeScores();
+  renderScores();
+
+  //creates a restart quiz button
   var goBackBtnEl = document.createElement('button');
   goBackBtnEl.classList = ("btn");
   goBackBtnEl.setAttribute('id', "back-button");
   goBackBtnEl.textContent = ("Restart Quiz"); 
   highScoreEl.appendChild(goBackBtnEl);
 
+  //creates a clear highscores button
   var clearBtnEl = document.createElement('button');
   clearBtnEl.classList = ("btn");
   clearBtnEl.setAttribute('id', "clear-button");
@@ -182,19 +205,35 @@ function displayHighScores(){
   //restarts quiz by reloading the browser
   goBackBtnEl.addEventListener("click", function(event){
     event.preventDefault();
+    finalScoreEl.textContent = "";
     window.location.reload()
   });
 
-  // clears the high scores from local storage --- need this functionality!!
+  // clears the high scores from local storage
   clearBtnEl.addEventListener("click", function(event){
     event.preventDefault();
-    window.location.reload()
+    savedDataEl.textContent = "";
+    localStorage.clear();
   });
-  // var lastSecondsLeft = JSON.parse(localStorage.getItem("movie-year"));
-  // if (lastSecondsLeft !== null) {
-  //   movieYearEL.textContent = lastYear;
-  // } else {
-  //   return;
-  // }
 }
 
+function storeScores() {
+  localStorage.setItem("scores", JSON.stringify(scores));
+}
+
+// The following function renders items in a score list as <li> elements
+ // Clear saveDataEL element and update highScoreEntries
+function renderScores() {
+  savedDataEl.innerHTML = "";
+  highScoreEntries.textContent = scores.length;
+
+  for (var i = 0; i < scores.length; i++) {
+    var score = scores[i];
+
+    var li = document.createElement("li");
+    li.textContent = score;
+    li.setAttribute("data-index", i);
+
+    savedDataEl.appendChild(li);
+  }
+}

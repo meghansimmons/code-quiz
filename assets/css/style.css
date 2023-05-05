@@ -12,7 +12,14 @@ body {
 
 h1 {
   text-align: center;
-  /* width: 500px; */
+  font-size: 30px;
+  margin-top: 100px;
+  margin-bottom: 25px;
+}
+
+h2 {
+  display: none;
+  text-align: center;
   font-size: 30px;
   margin-top: 100px;
   margin-bottom: 25px;
@@ -45,17 +52,13 @@ button {
 }
 
 .start-button {
-  /* display: block; */
-  /* position: relative; */
   margin-top: 50px;
   width: 500px;
 }
 
 .time {
-  /* display:inline-block; */
-  /* width: 500px; */
-  /* position: absolute; */
-  margin-left: 750px;
+margin-top: 50px;
+margin-left: 750px;
 }
 
 .btndiv {
@@ -65,10 +68,8 @@ button {
 
 .btn {
   color: white;
-  /* margin: 5px; */
   display: block;
-  /* align-content: center; */
-  /* justify-content: center; */
+
 }
 
 .card {
@@ -80,11 +81,6 @@ button {
   display: block;
   width: 750px;
   margin: auto;
-  /* text-align: left; */
-  /* justify-content: center; */
-  /* align-content: end; */
-  /* position: relative; */
-  /* background-color: darkgray; */
 }
 
 .end-screen {
@@ -95,16 +91,19 @@ button {
   width: 50%;
 }
 /* ID Selectors */
+#saved-data {
+  margin-left: 600px;
+  margin-top: 50px;
+  font-size: 20px;
+}
+
 #back-button{
-  display: inline-block;
-  margin-top: 70px;
   margin-left: 300px;
   width: 200px;
 }
 
 #clear-button{
-  display: inline-block;
-  margin-top: 70px;
-  margin-left: 250px;
+  margin-left: 300px;
   width: 200px;
 }
+
